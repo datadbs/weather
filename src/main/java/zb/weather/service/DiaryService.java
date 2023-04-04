@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -45,6 +46,21 @@ public class DiaryService {
         diaryRepository.save(nowDiary);
     }
 
+    public List<Diary> readDiary(LocalDate date){
+        return diaryRepository.findAllByDate(date);
+    }
+    public List<Diary> readDiaries(LocalDate startDate, LocalDate endDate){
+        return diaryRepository.findAllByDateBetween(startDate, endDate);
+    }
+    public void updateDiary(LocalDate date, String text){
+        Diary nowDiary = diaryRepository.getFirstByDate(date);
+        nowDiary.setText(text);
+        diaryRepository.save(nowDiary);
+    }
+
+    public void deleteDiary(LocalDate date){
+        diaryRepository.deleteAllByDate(date);
+    }
     private String getWeatherString() {
         String apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=" + apiKey;
         try{
