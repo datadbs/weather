@@ -5,18 +5,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import zb.weather.domain.Memo;
+import zb.weather.repository.JpaMemoRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-public class JpaMemoRepository {
+public class JpaMemoRepositoryTest {
     @Autowired
     JpaMemoRepository jpaMemoRepository;
+    @Test
+    void findAllMemoTest(){
+        List<Memo> memoList = jpaMemoRepository.findAll();
+        System.out.println(memoList);
+        assertNotNull(memoList);
+    }
     @Test
     void insertMemoTest(){
         Memo newMemo = new Memo(10,"this is jpa memo");
@@ -25,7 +31,7 @@ public class JpaMemoRepository {
         List<Memo> memoList = jpaMemoRepository.findAll();
         assertTrue(memoList.size() >0 );
     }
-
+    @Test
     void findByIdTest(){
         Memo newMemo = new Memo(11, "jpa");
         Memo memo = jpaMemoRepository.save(newMemo);
