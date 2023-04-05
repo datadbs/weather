@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zb.weather.WeatherApplication;
 import zb.weather.domain.DateWeather;
 import zb.weather.domain.Diary;
+import zb.weather.error.InvalidDate;
 import zb.weather.repository.DateWeatherRepository;
 import zb.weather.repository.DiaryRepository;
 
@@ -96,6 +97,9 @@ public class DiaryService {
     @Transactional(readOnly = true)
     public List<Diary> readDiary(LocalDate date){
         logger.debug("read diary");
+        if(date.isAfter(LocalDate.ofYearDay(3050,1))){
+//            throw new InvalidDate();
+        }
         return diaryRepository.findAllByDate(date);
     }
     public List<Diary> readDiaries(LocalDate startDate, LocalDate endDate){
